@@ -240,7 +240,11 @@ function formatTime(t: string) {
 }
 function formatDateTime(iso: string) {
   const d = new Date(iso);
-  return d.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit", second: "2-digit" });
+  const pad = (n: number) => String(n).padStart(2, "0");
+  const h = d.getUTCHours();
+  const suffix = h >= 12 ? "PM" : "AM";
+  const h12 = ((h + 11) % 12) + 1;
+  return `${pad(h12)}:${pad(d.getUTCMinutes())}:${pad(d.getUTCSeconds())} ${suffix}`;
 }
 
 const FALLBACK_RECENT = [
