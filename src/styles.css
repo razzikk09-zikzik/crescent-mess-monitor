@@ -111,6 +111,7 @@
 
 @layer base {
   * { border-color: var(--color-border); }
+  html { font-size: 14px; }
   body {
     background-color: var(--color-background);
     color: var(--color-foreground);
