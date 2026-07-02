@@ -83,14 +83,16 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { property: "og:title", content: "Mess Attendance System | Crescent IST" },
       { property: "og:description", content: "Live meal statistics, check-ins, analytics and reports for Crescent IST Female Hostel." },
       { property: "og:type", content: "website" },
+      { property: "og:image", content: "/logo1.png" },
       { name: "twitter:card", content: "summary_large_image" },
+      { name: "twitter:image", content: "/logo1.png" },
     ],
     links: [
       {
         rel: "stylesheet",
         href: appCss,
       },
-      { rel: "icon", href: "/favicon.ico", type: "image/x-icon" },
+      { rel: "icon", href: "/logo1.png", type: "image/png" },
     ],
   }),
   shellComponent: RootShell,
