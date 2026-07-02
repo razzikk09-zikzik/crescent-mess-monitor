@@ -77,14 +77,13 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "Lovable App" },
-      { name: "description", content: "Lovable Generated Project" },
-      { name: "author", content: "Lovable" },
-      { property: "og:title", content: "Lovable App" },
-      { property: "og:description", content: "Lovable Generated Project" },
+      { title: "Mess Attendance System | Crescent IST" },
+      { name: "description", content: "NFC-based mess attendance dashboard for Crescent Institute of Science & Technology, Female Hostel." },
+      { name: "author", content: "Crescent IST" },
+      { property: "og:title", content: "Mess Attendance System | Crescent IST" },
+      { property: "og:description", content: "Live meal statistics, check-ins, analytics and reports for Crescent IST Female Hostel." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
-      { name: "twitter:site", content: "@Lovable" },
     ],
     links: [
       {
