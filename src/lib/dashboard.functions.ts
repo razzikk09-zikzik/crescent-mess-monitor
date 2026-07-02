@@ -109,3 +109,71 @@ export const getDashboard = createServerFn({ method: "GET" }).handler(async () =
     _studentCount: students?.length ?? 0,
   } satisfies DashboardData & { _studentCount: number };
 });
+
+export const getStudentsList = createServerFn({ method: "GET" }).handler(async () => {
+  const supabase = publicClient();
+  const { data, error } = await supabase
+    .from("students")
+    .select("*")
+    .order("name", { ascending: true });
+  if (error) {
+    console.error("Error fetching students:", error);
+    throw new Error(error.message);
+  }
+  return data ?? [];
+});
+
+export type NewStudentInput = {
+  student_id: string;
+  name: string;
+  hostel: string;
+  room_no?: string;
+  nfc_uid?: string;
+};
+
+export const addStudent = createServerFn({ method: "POST" })
+  .validator((d: NewStudentInput) => d)
+  .handler(async ({ data: input }) => {
+    const supabase = publicClient();
+    const { data, error } = await supabase
+      .from("students")
+      .insert({
+        student_id: input.student_id,
+        name: input.name,
+        hostel: input.hostel || "Female Hostel",
+        room_no: input.room_no || null,
+        nfc_uid: input.nfc_uid || null,
+        is_active: true,
+      })
+      .select()
+      .single();
+    if (error) {
+      console.error("Error adding student server-side:", error);
+      throw new Error(error.message);
+    }
+    return data;
+  });
+
+export const getAttendanceLogs = createServerFn({ method: "GET" }).handler(async () => {
+  const supabase = publicClient();
+  const { data, error } = await supabase
+    .from("check_ins")
+    .select("id, checked_in_at, method, session_id, student:students(student_id, name, hostel, room_no), session:meal_sessions(session_type, meal_name)")
+    .order("checked_in_at", { ascending: false });
+  if (error) {
+    console.error("Error fetching check-ins:", error);
+    throw new Error(error.message);
+  }
+
+  return (data ?? []).map((c: any) => ({
+    id: c.id,
+    checked_in_at: c.checked_in_at,
+    method: c.method,
+    student_id: c.student?.student_id ?? "-",
+    student_name: c.student?.name ?? "-",
+    hostel: c.student?.hostel ?? "-",
+    room_no: c.student?.room_no ?? "-",
+    session_type: c.session?.session_type ?? "-",
+    meal_name: c.session?.meal_name ?? "-",
+  }));
+});
